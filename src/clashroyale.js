@@ -144,7 +144,7 @@ class ClashOfClans {
 
         this.getTournament = function (tournamentTag) {
             return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/tournaments/${tournamentTag}`, {
+                fetch(`${api_url}${base_url}/tournaments/%23${tournamentTag}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
