@@ -30,7 +30,7 @@ api.getPlayer('XXXXXXXX').then(data => console.log(data));
 ```
 
 <details>
-<summary>Edpoints</summary>
+<summary>Endpoints</summary>
 <table>
     <tr>
         <th>Endpoint</th>
