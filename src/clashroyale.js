@@ -312,9 +312,9 @@ class ClashOfClans {
             });
         };
 
-        this.getGlobalTournamentRanking = function (tournamentId) {
+        this.getGlobalTournamentRanking = function (tournamentTag) {
             return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/locations/global/rankings/tournaments/${tournamentId}`, {
+                fetch(`${api_url}${base_url}/locations/global/rankings/tournaments/${tournamentTag}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
