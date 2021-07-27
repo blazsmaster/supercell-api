@@ -93,33 +93,33 @@ class ClashRoyale {
         this.getLocationPlayerRankingList = function (locationId, limit) {
             if (!locationId) throw new Error('You didn\'t provided a location id!');
             if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
-            return fetch(apiKey,`${api_url}${base_url}/locations/${locationId}/rankings/players${limit ? `?limit=${limit}` : ''}`)
+            return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/players${limit ? `?limit=${limit}` : ''}`)
         };
 
         this.getLocationClanWarRankingList = function (locationId) {
             if (!locationId) throw new Error('You didn\'t provided a location id!');
-            return fetch(apiKey,`${api_url}${base_url}/locations/${locationId}/ranking/clanwars${limit ? `?limit=${limit}` : ''}`)
+            return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/ranking/clanwars${limit ? `?limit=${limit}` : ''}`)
         };
 
         this.getGlobalSeasonlist = function () {
-            return fetch(apiKey,`${api_url}${base_url}/locations/global/seasons`)
+            return fetch(apiKey, `${api_url}${base_url}/locations/global/seasons`)
         };
 
         this.getGlobalSeason = function (seasonId) {
             if (!seasonId) throw new Error('You didn\'t provided a season id!');
             if (isNaN(seasonId)) throw new Error('Season id cannot contain letters or any illegal characters!');
-            return fetch(apiKey,`${api_url}${base_url}/locations/global/seasons/${seasonId}`)
+            return fetch(apiKey, `${api_url}${base_url}/locations/global/seasons/${seasonId}`)
         };
 
         this.getGlobalSeasonPlayerRankingList = function (seasonId, limit) {
             if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
-            return fetch(apiKey,`${api_url}${base_url}/locations/global/seasons/${seasonId}/rankings/players${limit ? `?limit=${limit}` : ''}`)
+            return fetch(apiKey, `${api_url}${base_url}/locations/global/seasons/${seasonId}/rankings/players${limit ? `?limit=${limit}` : ''}`)
         };
 
         this.getGlobalTournamentRankingList = function (tournamentTag, limit) {
             if (!tournamentTag) throw new Error('You didn\'t provided a tournament tag!');
             if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
-            return fetch(apiKey,`${api_url}${base_url}/locations/global/rankings/tournaments/${tournamentTag.replace('#', '%23')}${limit ? `?limit=${limit}` : ''}`)
+            return fetch(apiKey, `${api_url}${base_url}/locations/global/rankings/tournaments/${tournamentTag.replace('#', '%23')}${limit ? `?limit=${limit}` : ''}`)
         };
     };
 };
