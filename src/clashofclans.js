@@ -1,385 +1,121 @@
-const fetch = require('node-fetch');
-const parseResponse = require('./functions/parseResponse');
+const fetch = require('./functions/fetch');
 
 const api_url = 'https://api.clashofclans.com';
 const base_url = '/v1';
 
 class ClashOfClans {
     constructor(apiKey) {
+        if (!apiKey) throw new Error('You didn\'t provided a Clash of Clans API token!');
+
         this.getPlayer = function (playerTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/players/%23${playerTag}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            return fetch(`${api_url}${base_url}/players/${playerTag.replace('#', '%23')}`)
+        };
+
+        this.searchClan = function (name, limit, minMembers, maxMembers, minClanPoints, minClanLevel, warFrequency, locationId, labelIds) {
+            if (!name) throw new Error('You didn\'t provided a clan name!');
+            return fetch(`${api_url}${base_url}/clans${name ? `?name=${name}` : ''}${limit ? `&limit=${limit}` : ''}${minMembers ? `&minMembers=${minMembers}` : ''}${maxMembers ? `&maxMembers=${maxMembers}` : ''}${minClanPoints ? `&minClanPoints=${minClanPoints}` : ''}${minClanLevel ? `&minClanLevel=${minClanLevel}` : ''}${warFrequency ? `&warFrequency=${clanWarFrequency}` : ''}${locationId ? `&locationId=${locationId}` : ''}${labelIds ? `&labelIds=${labelIds.replace(' ', '%20')}` : ''}`);
         };
 
         this.getClan = function (clanTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/clans/%23${clanTag}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!clanTag) throw new Error('You didn\'t provided a clan tag!');
+            return fetch(`${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}`);
         };
 
-        this.getClanMemberList = function (clanTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/clans/%23${clanTag}/members`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getClanMemberList = function (clanTag, limit) {
+            if (!clanTag) throw new Error('You didn\'t provided a clan tag!');
+            return fetch(`${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}/members${limit ? `?limit=${limit}` : ''}`);
         };
 
         this.getCurrentClanWar = function (clanTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/clans/%23${clanTag}/currentwar`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!clanTag) throw new Error('You didn\'t provided a clan tag!');
+            return fetch(`${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}/currentwar`);
         };
 
-        this.getClanWarLog = function (clanTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/clans/%23${clanTag}/warlog`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getClanWarLog = function (clanTag, limit) {
+            if (!clanTag) throw new Error('You didn\'t provided a clan tag!');
+            return fetch(`${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}/warlog${limit ? `?limit=${limit}` : ''}`);
         };
 
         this.getClanWar = function (warTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/clanwarleagues/wars/${warTag}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!warTag) throw new Error('You didn\'t provided a war tag!');
+            return fetch(`${api_url}${base_url}/clanwarleagues/wars/${warTag.replace('#', '%23')}`);
         };
 
         this.getCurrentClanWarGroup = function (clanTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/clans/%23${clanTag}/currentwar/leaguegroup`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!clanTag) throw new Error('You didn\'t provided a clan tag!');
+            return fetch(`${api_url}${base_url}/clans/%23${clanTag}/currentwar/leaguegroup`);
         };
 
-        this.getLeagueList = function () {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/leagues`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getLeagueList = function (limit) {
+            return fetch(`${api_url}${base_url}/leagues${limit ? `?limit=${limit}` : ''}`);
         };
 
         this.getLeague = function (leagueId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/leagues/${leagueId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!leagueId) throw new Error('You didn\'t provided a league id!');
+            return fetch(`${api_url}${base_url}/leagues/${leagueId}`);
         };
 
-        this.getLeagueSeasonList = function (leagueId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/leagues/${leagueId}/seasons`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getLeagueSeasonList = function (leagueId, limit) {
+            if (!leagueId) throw new Error('You didn\'t provided a league id!');
+            return fetch(`${api_url}${base_url}/leagues/${leagueId}/seasons${limit ? `?limit=${limit}` : ''}`);
         };
 
-        this.getLeagueSeason = function (leagueId, seasonId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/leagues/${leagueId}/seasons/${seasonId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getLeagueSeason = function (leagueId, seasonId, limit) {
+            if (!leagueId) throw new Error('You didn\'t provided a league id!');
+            if (!seasonId) throw new Error('You didn\'t provided a season id!');
+            return fetch(`${api_url}${base_url}/leagues/${leagueId}/seasons/${seasonId}${limit ? `?limit=${limit}` : ''}`);
         };
 
-        this.getWarLeagueList = function () {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/warleagues`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getWarLeagueList = function (limit) {
+            return fetch(`${api_url}${base_url}/warleagues${limit ? `?limit=${limit}` : ''}`);
         };
 
         this.getWarLeague = function (leagueId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/warleagues/${leagueId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!leagueId) throw new Error('You didn\'t provided a league id!');
+            return fetch(`${api_url}${base_url}/warleagues/${leagueId}`);
         };
 
-        this.getLocationList = function () {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/locations`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getLocationList = function (limit) {
+            return fetch(`${api_url}${base_url}/locations${limit ? `?limit=${limit}` : ''}`);
         };
 
         this.getLocation = function (locationId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/locations/${locationId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!locationId) throw new Error('You didn\'t provided a location id!');
+            return fetch(`${api_url}${base_url}/locations/${locationId}`);
         };
 
-        this.getLocationClanRanking = function (locationId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/locations/${locationId}/rankings/clans`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getLocationClanRankingList = function (locationId, limit) {
+            if (!locationId) throw new Error('You didn\'t provided a location id!');
+            return fetch(`${api_url}${base_url}/locations/${locationId}/rankings/clans${limit ? `?limit=${limit}` : ''}`);
         };
 
-        this.getLocationPlayerRanking = function (locationId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/locations/${locationId}/rankings/players`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getLocationPlayerRankingList = function (locationId, limit) {
+            if (!locationId) throw new Error('You didn\'t provided a location id!');
+            return fetch(`${api_url}${base_url}/locations/${locationId}/rankings/players${limit ? `?limit=${limit}` : ''}`);
         };
 
-        this.getLocationClanVersusRanking = function (locationId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/locations/${locationId}/rankings/clans-versus`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getLocationClanVersusRankingList = function (locationId, limit) {
+            if (!locationId) throw new Error('You didn\'t provided a location id!');
+            return fetch(`${api_url}${base_url}/locations/${locationId}/rankings/clans-versus${limit ? `?limit=${limit}` : ''}`);
         };
 
-        this.getLocationPlayerVersusRanking = function (locationId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/locations/${locationId}/rankings/players-versus`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getLocationPlayerVersusRankingList = function (locationId, limit) {
+            if (!locationId) throw new Error('You didn\'t provided a location id!');
+            return fetch(`${api_url}${base_url}/locations/${locationId}/rankings/players-versus${limit ? `?limit=${limit}` : ''}`);
         };
 
         this.getGoldPass = function () {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/goldpass/seasons/current`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            return fetch(`${api_url}${base_url}/goldpass/seasons/current`);
         };
 
-        this.getPlayerLabelList = function () {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/labels/players`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getPlayerLabelList = function (limit) {
+            return fetch(`${api_url}${base_url}/labels/players${limit ? `?limit=${limit}` : ''}`);
         };
 
-        this.getClanLabelList = function () {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/labels/clans`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getClanLabelList = function (limit) {
+            return fetch(`${api_url}${base_url}/labels/clans${limit ? `?limit=${limit}` : ''}`);
         };
-    }
+    };
 };
 
 module.exports = ClashOfClans;

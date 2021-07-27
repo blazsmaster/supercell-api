@@ -23,17 +23,11 @@ class ClashRoyale {
         };
 
         this.getCardList = function (limit) {
-            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
             return fetch(apiKey, `${api_url}${base_url}/cards${limit ? `?limit=${limit}` : ''}`);
         };
 
         this.searchClan = function (name, limit, minMembers, maxMembers, minScore, locationId) {
             if (!name) throw new Error('You didn\'t provided a clan name!');
-            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
-            if (minMembers && isNaN(minMembers)) throw new Error('Minimum members cannot contain letters or any illegal characters!');
-            if (maxMembers && isNaN(maxMembers)) throw new Error('Maximum members cannot contain letters or any illegal characters!');
-            if (minScore && isNaN(minScore)) throw new Error('Minimum score cannot contain letters or any illegal characters!');
-            if (locationId && isNaN(locationId)) throw new Error('Location id cannot contain letters or any illegal characters!');
             return fetch(apiKey, `${api_url}${base_url}/clans${name ? `?name=${name}` : ''}${limit ? `&limit=${limit}` : ''}${minMembers ? `&minMembers=${minMembers}` : ''}${maxMembers ? `&maxMembers=${maxMembers}` : ''}${minScore ? `&minScore=${minScore}` : ''}${locationId ? `&locationId=${locationId}` : ''}`)
         };
 
@@ -44,7 +38,6 @@ class ClashRoyale {
 
         this.getClanMemberList = function (clanTag, limit) {
             if (!clanTag) throw new Error('You didn\'t provided a clan tag!');
-            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
             return fetch(apiKey, `${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}/members${limit ? `?limit=${limit}` : ''}`)
         };
 
@@ -55,13 +48,11 @@ class ClashRoyale {
 
         this.getRiverRaceLog = function (clanTag, limit) {
             if (!clanTag) throw new Error('You didn\'t provided a clan tag!');
-            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
             return fetch(apiKey, `${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}/riverracelog${limit ? `?limit=${limit}` : ''}`)
         };
 
         this.searchTournament = function (name, limit) {
             if (!name) throw new Error('You didn\'t provided a tournament name!');
-            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
             return fetch(apiKey, `${api_url}${base_url}/tournaments${name ? `?name=${name}` : ''}${limit ? `&limit=${limit}` : ''}`)
         };
 
@@ -75,7 +66,6 @@ class ClashRoyale {
         };
 
         this.getLocationList = function (limit) {
-            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
             return fetch(apiKey, `${api_url}${base_url}/locations${limit ? `?limit=${limit}` : ''}`)
         };
 
@@ -86,17 +76,15 @@ class ClashRoyale {
 
         this.getLocationClanRankingList = function (locationId, limit) {
             if (!locationId) throw new Error('You didn\'t provided a location id!');
-            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
             return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/clans${limit ? `?limit=${limit}` : ''}`)
         };
 
         this.getLocationPlayerRankingList = function (locationId, limit) {
             if (!locationId) throw new Error('You didn\'t provided a location id!');
-            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
             return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/players${limit ? `?limit=${limit}` : ''}`)
         };
 
-        this.getLocationClanWarRankingList = function (locationId) {
+        this.getLocationClanWarRankingList = function (locationId, limit) {
             if (!locationId) throw new Error('You didn\'t provided a location id!');
             return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/ranking/clanwars${limit ? `?limit=${limit}` : ''}`)
         };
@@ -107,18 +95,16 @@ class ClashRoyale {
 
         this.getGlobalSeason = function (seasonId) {
             if (!seasonId) throw new Error('You didn\'t provided a season id!');
-            if (isNaN(seasonId)) throw new Error('Season id cannot contain letters or any illegal characters!');
             return fetch(apiKey, `${api_url}${base_url}/locations/global/seasons/${seasonId}`)
         };
 
         this.getGlobalSeasonPlayerRankingList = function (seasonId, limit) {
-            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
+            if (!seasonId) throw new Error('You didn\'t provided a season id!');
             return fetch(apiKey, `${api_url}${base_url}/locations/global/seasons/${seasonId}/rankings/players${limit ? `?limit=${limit}` : ''}`)
         };
 
         this.getGlobalTournamentRankingList = function (tournamentTag, limit) {
             if (!tournamentTag) throw new Error('You didn\'t provided a tournament tag!');
-            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
             return fetch(apiKey, `${api_url}${base_url}/locations/global/rankings/tournaments/${tournamentTag.replace('#', '%23')}${limit ? `?limit=${limit}` : ''}`)
         };
     };
