@@ -4,7 +4,7 @@
   "description": "A promise based api wrapper for supercell games.",
   "main": "index.js",
   "scripts": {
-    "test": "node src/test.js"
+    "test": "node test/test.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
     "node-fetch",
     "js"
   ],
-  "author": "blazsmasterű",
+  "author": "blazsmaster",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/blazsmaster/supercell-api/issues"
