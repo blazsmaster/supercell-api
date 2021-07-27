@@ -1,198 +1,82 @@
-const fetch = require('node-fetch');
-const parseResponse = require('./functions/parseResponse');
+const fetch = require('./functions/fetch');
 
 const api_url = 'https://api.brawlstars.com';
 const base_url = '/v1';
 
 class BrawlStars {
     constructor(apiKey) {
+        if (!apiKey) throw new Error('You didn\'t provided a Brawl Stars API token!');
+
         this.getPlayer = function (playerTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/players/%23${playerTag}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!playerTag) throw new Error('You didn\'t provided a player tag!');
+            return fetch(apiKey, `${api_url}${base_url}/players/${playerTag.replace('#', '%23')}`);
         };
 
         this.getBattleLog = function (playerTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/players/%23${playerTag}/battlelog`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!playerTag) throw new Error('You didn\'t provided a player tag!');
+            return fetch(apiKey, `${api_url}${base_url}/players/%23${playerTag.replace('#', '%23')}/battlelog`);
         };
 
         this.getClub = function (clubTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/clubs/%23${clubTag}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!clubTag) throw new Error('You didn\'t provided a club tag!');
+            return fetch(apiKey, `${api_url}${base_url}/clubs/%23${clubTag.replace('#', '%23')}`);
         };
 
-        this.getClubMemberList = function (clubTag) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/clubs/%23${clubTag}/members`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getClubMemberList = function (clubTag, limit) {
+            if (!clubTag) throw new Error('You didn\'t provided a club tag!');
+            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
+            return fetch(apiKey, `${api_url}${base_url}/clubs/%23${clubTag.replace('#', '%23')}/members${limit ? `?limit=${limit}` : ''}`);
         };
 
         this.getEventList = function () {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/events/rotation`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            return fetch(apiKey, `${api_url}${base_url}/events/rotation`);
+        };
+
+        this.getBrawlerList = function (limit) {
+            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
+            return fetch(apiKey, `${api_url}${base_url}/brawlers${limit ? `?limit=${limit}` : ''}`);
         };
 
         this.getBrawler = function (brawlerId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/brawlers/${brawlerId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+            if (!brawlerId) throw new Error('You didn\'t provided a brawler id!');
+            if (isNaN(brawlerId)) throw new Error('Brawler id cannot contain letters or any illegal characters!');
+            return fetch(apiKey, `${api_url}${base_url}/brawlers/${brawlerId}`);
         };
 
-        this.getBrawlerList = function () {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/brawlers`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getPlayerRankingList = function (countryCode, limit) {
+            if (!countryCode) throw new Error('You didn\'t provided a country code!');
+            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
+            return fetch(apiKey, `${api_url}${base_url}/rankings/${countryCode}/players${limit ? `?limit=${limit}` : ''}`);
         };
 
-        this.getPlayerRanking = function (countryCode) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/rankings/${countryCode}/players`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getClubRankingList = function (countryCode, limit) {
+            if (!countryCode) throw new Error('You didn\'t provided a country code!');
+            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
+            return fetch(apiKey, `${api_url}${base_url}/rankings/${countryCode}/clubs${limit ? `?limit=${limit}` : ''}`);
         };
 
-        this.getClubRanking = function (countryCode) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/rankings/${countryCode}/clubs`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getBrawlerRankingList = function (countryCode, brawlerId, limit) {
+            if (!countryCode) throw new Error('You didn\'t provided a country code!');
+            if (!brawlerId) throw new Error('You didn\'t provided a brawler id!');
+            if (isNaN(brawlerId)) throw new Error('Brawler id cannot contain letters or any illegal characters!');
+            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
+            return fetch(apiKey, `${api_url}${base_url}/rankings/${countryCode}/brawlers/${brawlerId}${limit ? `?limit=${limit}` : ''}`);
         };
 
-        this.getBrawlerRanking = function (countryCode, brawlerId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/rankings/${countryCode}/brawlers/${brawlerId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getPowerplaySeasonRankingList = function (countryCode, limit) {
+            if (!countryCode) throw new Error('You didn\'t provided a country code!');
+            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
+            return fetch(apiKey, `${api_url}${base_url}/rankings/${countryCode}/powerplay/seasons${limit ? `?limit=${limit}` : ''}`);
         };
 
-        this.getPowerplaySeasonRanking = function (countryCode, seasonId) {
-            return new Promise(function (resolve, reject) {
-                fetch(`${api_url}${base_url}/rankings/${countryCode}/powerplay/seasons/${seasonId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'authorization': `Bearer ${apiKey}`
-                    },
-                })
-                .then(res => res.json())
-                .then(json => {
-                    resolve(parseResponse(json));
-                })
-                .catch(err => reject(err));
-            });
+        this.getPowerplaySeasonRanking = function (countryCode, seasonId, limit) {
+            if (!countryCode) throw new Error('You didn\'t provided a country code!');
+            if (!brawlerId) throw new Error('You didn\'t provided a season id!');
+            if (isNaN(brawlerId)) throw new Error('Season id cannot contain letters or any illegal characters!');
+            if (limit && isNaN(limit)) throw new Error('Output limit cannot contain letters or any illegal characters!');
+            return fetch(apiKey, `${api_url}${base_url}/rankings/${countryCode}/powerplay/seasons/${seasonId}${limit ? `?limit=${limit}` : ''}`);
         };
-    }
+    };
 };
 
 module.exports = BrawlStars;
