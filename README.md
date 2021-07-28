@@ -7,6 +7,43 @@
 $ npm install supercell-api
 ```
 
+## Changelog
+
+> * Added `limit` string to listing methods for limiting output object size
+> * Fixed missing `apiKey` string in Clash of Clans constructor
+
+<details>
+<summary>Brawl Stars Changes</summary>
+
+> * Updated `.getPlayerRanking()` to `.getPlayerRankingList()`
+> * Updated `.getClubRanking()` to `.getClubRankingList()`
+> * Updated `.getBrawlerRanking()` to `.getBrawlerRankingList()`
+> * Updated `.getPowerPlaySeasonRanking()` to `.getPowerPlaySeasonRankingList()`
+
+</details>
+
+<details>
+<summary>Clash Royale Changes</summary>
+
+> * Added `.searchClan()`
+> * Added `.searchTournament()`
+> * Updated `.getLocationClanRanking()` to `.getLocationClanRankingList()`
+> * Updated `.getLocationPlayerRanking()` to `.getLocationPlayerRankingList()`
+> * Updated `.getLocationClanWarRanking()` to `.getLocationClanWarRankingList()`
+
+</details>
+
+<details>
+<summary>Clash of Clans Changes</summary>
+
+> * Added `.searchClan()` in Clash Royale API
+> * Updated `.getLocationClanRanking()` to `.getLocationClanRankingList()`
+> * Updated `.getLocationPlayerRanking()` to `.getLocationPlayerRankingList()`
+> * Updated `.getLocationClanVersusRanking()` to `.getLocationClanVersusRankingList()`
+> * Updated `.getLocationPlayerVersusRanking()` to `.getLocationPlayerVersusRankingList()`
+
+</details>
+
 ## Brawl Stars API
 
 ### Example
@@ -371,7 +408,7 @@ api.getPlayer('#XXXXXXXX').then(data => console.log(data));
 
 ## Clash of Clans API
 
-### Usage
+### Example
 
 ```js
 const supercell = require('supercell-api');
