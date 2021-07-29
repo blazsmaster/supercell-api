@@ -11,9 +11,18 @@ class ClashOfClans {
             return fetch(apiKey, `${api_url}${base_url}/players/${playerTag.replace('#', '%23')}`)
         };
 
-        this.searchClan = function (name, limit, minMembers, maxMembers, minClanPoints, minClanLevel, warFrequency, locationId, labelIds) {
+        this.searchClan = function (name, options = {
+            limit: '',
+            minMembers: '',
+            maxMembers: '',
+            minClanPoints: '',
+            minClanLevel: '',
+            warFrequency: '',
+            locationId: '',
+            labelIds: ''
+        }) {
             if (!name) throw new Error('You didn\'t provided a clan name!');
-            return fetch(apiKey, `${api_url}${base_url}/clans${name ? `?name=${name}` : ''}${limit ? `&limit=${limit}` : ''}${minMembers ? `&minMembers=${minMembers}` : ''}${maxMembers ? `&maxMembers=${maxMembers}` : ''}${minClanPoints ? `&minClanPoints=${minClanPoints}` : ''}${minClanLevel ? `&minClanLevel=${minClanLevel}` : ''}${warFrequency ? `&warFrequency=${clanWarFrequency}` : ''}${locationId ? `&locationId=${locationId}` : ''}${labelIds ? `&labelIds=${labelIds.replace(' ', '%20')}` : ''}`);
+            return fetch(apiKey, `${api_url}${base_url}/clans${name ? `?name=${name}` : ''}${options.limit ? `&limit=${options.limit}` : ''}${options.minMembers ? `&minMembers=${options.minMembers}` : ''}${options.maxMembers ? `&maxMembers=${options.maxMembers}` : ''}${options.minClanPoints ? `&minClanPoints=${options.minClanPoints}` : ''}${options.minClanLevel ? `&minClanLevel=${minClanLevel}` : ''}${options.warFrequency ? `&warFrequency=${options.clanWarFrequency}` : ''}${options.locationId ? `&locationId=${options.locationId}` : ''}${options.labelIds ? `&labelIds=${options.labelIds.replace(' ', '%20')}` : ''}`);
         };
 
         this.getClan = function (clanTag) {
@@ -21,9 +30,11 @@ class ClashOfClans {
             return fetch(apiKey, `${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}`);
         };
 
-        this.getClanMemberList = function (clanTag, limit) {
+        this.getClanMemberList = function (clanTag, options = {
+            limit: ''
+        }) {
             if (!clanTag) throw new Error('You didn\'t provided a clan tag!');
-            return fetch(apiKey, `${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}/members${limit ? `?limit=${limit}` : ''}`);
+            return fetch(apiKey, `${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}/members${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
         this.getCurrentClanWar = function (clanTag) {
@@ -31,9 +42,11 @@ class ClashOfClans {
             return fetch(apiKey, `${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}/currentwar`);
         };
 
-        this.getClanWarLog = function (clanTag, limit) {
+        this.getClanWarLog = function (clanTag, options = {
+            limit: ''
+        }) {
             if (!clanTag) throw new Error('You didn\'t provided a clan tag!');
-            return fetch(apiKey, `${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}/warlog${limit ? `?limit=${limit}` : ''}`);
+            return fetch(apiKey, `${api_url}${base_url}/clans/${clanTag.replace('#', '%23')}/warlog${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
         this.getClanWar = function (warTag) {
@@ -46,8 +59,10 @@ class ClashOfClans {
             return fetch(apiKey, `${api_url}${base_url}/clans/%23${clanTag}/currentwar/leaguegroup`);
         };
 
-        this.getLeagueList = function (limit) {
-            return fetch(apiKey, `${api_url}${base_url}/leagues${limit ? `?limit=${limit}` : ''}`);
+        this.getLeagueList = function (options = {
+            limit: ''
+        }) {
+            return fetch(apiKey, `${api_url}${base_url}/leagues${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
         this.getLeague = function (leagueId) {
@@ -55,19 +70,25 @@ class ClashOfClans {
             return fetch(apiKey, `${api_url}${base_url}/leagues/${leagueId}`);
         };
 
-        this.getLeagueSeasonList = function (leagueId, limit) {
+        this.getLeagueSeasonList = function (leagueId, options = {
+            limit: ''
+        }) {
             if (!leagueId) throw new Error('You didn\'t provided a league id!');
-            return fetch(apiKey, `${api_url}${base_url}/leagues/${leagueId}/seasons${limit ? `?limit=${limit}` : ''}`);
+            return fetch(apiKey, `${api_url}${base_url}/leagues/${leagueId}/seasons${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
-        this.getLeagueSeason = function (leagueId, seasonId, limit) {
+        this.getLeagueSeason = function (leagueId, seasonId, options = {
+            limit: ''
+        }) {
             if (!leagueId) throw new Error('You didn\'t provided a league id!');
             if (!seasonId) throw new Error('You didn\'t provided a season id!');
-            return fetch(apiKey, `${api_url}${base_url}/leagues/${leagueId}/seasons/${seasonId}${limit ? `?limit=${limit}` : ''}`);
+            return fetch(apiKey, `${api_url}${base_url}/leagues/${leagueId}/seasons/${seasonId}${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
-        this.getWarLeagueList = function (limit) {
-            return fetch(apiKey, `${api_url}${base_url}/warleagues${limit ? `?limit=${limit}` : ''}`);
+        this.getWarLeagueList = function (options = {
+            limit: ''
+        }) {
+            return fetch(apiKey, `${api_url}${base_url}/warleagues${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
         this.getWarLeague = function (leagueId) {
@@ -75,8 +96,10 @@ class ClashOfClans {
             return fetch(apiKey, `${api_url}${base_url}/warleagues/${leagueId}`);
         };
 
-        this.getLocationList = function (limit) {
-            return fetch(apiKey, `${api_url}${base_url}/locations${limit ? `?limit=${limit}` : ''}`);
+        this.getLocationList = function (options = {
+            limit: ''
+        }) {
+            return fetch(apiKey, `${api_url}${base_url}/locations${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
         this.getLocation = function (locationId) {
@@ -84,36 +107,48 @@ class ClashOfClans {
             return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}`);
         };
 
-        this.getLocationClanRankingList = function (locationId, limit) {
+        this.getLocationClanRankingList = function (locationId, options = {
+            limit: ''
+        }) {
             if (!locationId) throw new Error('You didn\'t provided a location id!');
-            return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/clans${limit ? `?limit=${limit}` : ''}`);
+            return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/clans${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
-        this.getLocationPlayerRankingList = function (locationId, limit) {
+        this.getLocationPlayerRankingList = function (locationId, options = {
+            limit: ''
+        }) {
             if (!locationId) throw new Error('You didn\'t provided a location id!');
-            return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/players${limit ? `?limit=${limit}` : ''}`);
+            return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/players${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
-        this.getLocationClanVersusRankingList = function (locationId, limit) {
+        this.getLocationClanVersusRankingList = function (locationId, options = {
+            limit: ''
+        }) {
             if (!locationId) throw new Error('You didn\'t provided a location id!');
-            return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/clans-versus${limit ? `?limit=${limit}` : ''}`);
+            return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/clans-versus${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
-        this.getLocationPlayerVersusRankingList = function (locationId, limit) {
+        this.getLocationPlayerVersusRankingList = function (locationId, options = {
+            limit: ''
+        }) {
             if (!locationId) throw new Error('You didn\'t provided a location id!');
-            return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/players-versus${limit ? `?limit=${limit}` : ''}`);
+            return fetch(apiKey, `${api_url}${base_url}/locations/${locationId}/rankings/players-versus${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
         this.getGoldPass = function () {
             return fetch(apiKey, `${api_url}${base_url}/goldpass/seasons/current`);
         };
 
-        this.getPlayerLabelList = function (limit) {
-            return fetch(apiKey, `${api_url}${base_url}/labels/players${limit ? `?limit=${limit}` : ''}`);
+        this.getPlayerLabelList = function (options = {
+            limit: ''
+        }) {
+            return fetch(apiKey, `${api_url}${base_url}/labels/players${options.limit ? `?limit=${options.limit}` : ''}`);
         };
 
-        this.getClanLabelList = function (limit) {
-            return fetch(apiKey, `${api_url}${base_url}/labels/clans${limit ? `?limit=${limit}` : ''}`);
+        this.getClanLabelList = function (options = {
+            limit: ''
+        }) {
+            return fetch(apiKey, `${api_url}${base_url}/labels/clans${options.limit ? `?limit=${options.limit}` : ''}`);
         };
     };
 };
