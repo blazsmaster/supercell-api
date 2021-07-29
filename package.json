@@ -26,9 +26,6 @@
   "dependencies": {
     "node-fetch": "^2.6.1"
   },
-  "publishConfig": {
-    "@blazsmaster:registry": "https://npm.pkg.github.com"
-  },
   "directories": {
     "test": "test"
   },
