@@ -9,40 +9,28 @@ $ npm install supercell-api
 
 ## Changelog
 
-> * Added `limit` string to listing methods for limiting output object size
-> * Fixed missing `apiKey` string in Clash of Clans constructor
-
+* Changed every non-required parameters to options. 
 <details>
-<summary>Brawl Stars Changes</summary>
+  <summary>Example</summary>
 
-> * Updated `.getPlayerRanking()` to `.getPlayerRankingList()`
-> * Updated `.getClubRanking()` to `.getClubRankingList()`
-> * Updated `.getBrawlerRanking()` to `.getBrawlerRankingList()`
-> * Updated `.getPowerPlaySeasonRanking()` to `.getPowerPlaySeasonRankingList()`
-
+  ### Old search method
+  ```js
+  .searchClan(name, (limit), (minMembers), (maxMembers), (minScore), (locationId))
+  ```
+  
+  ### New search method
+  ```js
+  .searchClan(name, {
+    limit: '',
+    // maxMembers: '',
+    // maxMembers: '',
+    // minScore: '',
+    // locationId: ''
+  })
+  ```
 </details>
 
-<details>
-<summary>Clash Royale Changes</summary>
-
-> * Added `.searchClan()`
-> * Added `.searchTournament()`
-> * Updated `.getLocationClanRanking()` to `.getLocationClanRankingList()`
-> * Updated `.getLocationPlayerRanking()` to `.getLocationPlayerRankingList()`
-> * Updated `.getLocationClanWarRanking()` to `.getLocationClanWarRankingList()`
-
-</details>
-
-<details>
-<summary>Clash of Clans Changes</summary>
-
-> * Added `.searchClan()` in Clash Royale API
-> * Updated `.getLocationClanRanking()` to `.getLocationClanRankingList()`
-> * Updated `.getLocationPlayerRanking()` to `.getLocationPlayerRankingList()`
-> * Updated `.getLocationClanVersusRanking()` to `.getLocationClanVersusRankingList()`
-> * Updated `.getLocationPlayerVersusRanking()` to `.getLocationPlayerVersusRankingList()`
-
-</details>
+* Fixed spelling in example (`spercell` to `supercell`)
 
 ## Brawl Stars API
 
@@ -51,7 +39,7 @@ $ npm install supercell-api
 ```js
 const supercell = require('supercell-api');
 
-const api = new spercell.BrawlStars('brawl stars api key here');
+const api = new supercell.BrawlStars('brawl stars api key here');
 
 api.getPlayer('#XXXXXXXX').then(data => console.log(data));
 ```
@@ -113,62 +101,74 @@ api.getPlayer('#XXXXXXXX').then(data => console.log(data));
 <table>
     <tr>
         <th></th>
-        <th>Strings</th>
+        <th>Parameters</th>
+        <th>Options</th>
         <th>Description</th>
     </tr>
     <tr>
         <td><code>.getPlayer()</code></td>
         <td>playerTag</td>
+        <td></td>
         <td>Get information about a single player by player tag.</td>
     </tr>
     <tr>
         <td><code>.getBattleLog()</code></td>
         <td>playerTag</td>
+        <td></td>
         <td>Get list of recent battle results for a player.</td>
     </tr>
     <tr>
         <td><code>.getClub()</code></td>
         <td>clubTag</td>
+        <td></td>
         <td>Get information about a single clan by club tag.</td>
     </tr>
     <tr>
         <td><code>.getClubMemberList()</code></td>
-        <td>clubTag, (limit)</td>
+        <td>clubTag, {options}</td>
+        <td>llimit</td>
         <td>List club members.</td>
     </tr>
     <tr>
         <td><code>.getEventList()</code></td>
+        <td></td>
         <td></td>
         <td>Get event rotation for ongoing events.</td>
     </tr>
     <tr>
         <td><code>.getBrawler()</code></td>
         <td>brawlerId</td>
+        <td></td>
         <td>Get information about a brawler.</td>
     </tr>
     <tr>
         <td><code>.getBrawlerList()</code></td>
-        <td>(limit)</td>
+        <td>{options}</td>
+        <td>limit</td>
         <td>Get list of available brawlers.</td>
     </tr>
     <tr>
         <td><code>.getPlayerRankingList()</code></td>
-        <td>countryCode, (limit)</td>
+        <td>countryCode, {options}</td>
+        <td>limit</td>
         <td>Get player rankings for a country or global rankings.</td>
     </tr>
     <tr>
         <td><code>.getClubRankingList()</code></td>
-        <td>countryCode, (limit)</td>
+        <td>countryCode, {options}</td>
+        <td>limit</td>
         <td>Get club rankings for a country or global rankings.</td>
     </tr>
     <tr>
         <td><code>.getBrawlerRankingList()</code></td>
-        <td>countryCode, brawlerId, (limit)</td>
+        <td>countryCode, brawlerId, {options}</td>
+        <td>limit</td>
         <td>Get brawler rankings for a country or global rankings.</td>
     </tr>
     <tr>
         <td><code>.getPowerPlaySeasonRankingList()</code></td>
-        <td>countryCode, (limit)</td>
+        <td>countryCode, {options}</td>
+        <td>limit</td>
         <td>Get power play rankings for a country or global rankings.</td>
     </tr>
 </table>
@@ -180,7 +180,7 @@ api.getPlayer('#XXXXXXXX').then(data => console.log(data));
 ```js
 const supercell = require('supercell-api');
 
-const api = new spercell.ClashRoyale('clash royale api key here');
+const api = new supercell.ClashRoyale('clash royale api key here');
 
 api.getPlayer('#XXXXXXXX').then(data => console.log(data));
 ```
@@ -296,112 +296,134 @@ api.getPlayer('#XXXXXXXX').then(data => console.log(data));
 <table>
     <tr>
         <th></th>
-        <th>Strings</th>
+        <th>Parameters</th>
+        <th>Options</th>
         <th>Description</th>
     </tr>
     <tr>
         <td><code>.getPlayer()</code></td>
         <td>playerTag</td>
+        <td></td>
         <td>Get information about a single player by player tag.</td>
     </tr>
     <tr>
         <td><code>.getUpcomingChestList()</code></td>
         <td>playerTag</td>
+        <td></td>
         <td>Get list of reward chests that the player will receive next in the game.</td>
     </tr>
     <tr>
         <td><code>.getBattleLog()</code></td>
         <td>playerTag</td>
+        <td></td>
         <td>Get list of recent battle results for a player.</td>
     </tr>
     <tr>
         <td><code>.getCardList()</code></td>
-        <td>(limit)</td>
+        <td>{options}</td>
+        <td>limit</td>
         <td>Get list of available cards.</td>
     </tr>
     <tr>
         <td><code>.searchClan()</code></td>
-        <td>name, (limit), (minMembers), (maxMembers), (minScore), (locationId)</td>
+        <td>name, {options}</td>
+        <td>limit, minMembers, maxMembers, minScore, locationId</td>
         <td>Search all clans by name and/or filtering the results using various criteria.</td>
     </tr>
     <tr>
         <td><code>.getClan()</code></td>
         <td>clanTag</td>
+        <td></td>
         <td>Get information about a single clan by clan tag.</td>
     </tr>
     <tr>
         <td><code>.getClanMemberList()</code></td>
-        <td>clanTag, (limit)</td>
+        <td>clanTag, {options}</td>
+        <td>limit</td>
         <td>List clan members.</td>
     </tr>
     <tr>
         <td><code>.getCurrentRiverRace()</code></td>
         <td>clanTag</td>
+        <td></td>
         <td>Retrieve information about clan's current river race.</td>
     </tr>
     <tr>
         <td><code>.getRiverRaceLog()</code></td>
         <td>clanTag</td>
+        <td></td>
         <td>Retrieve clan's river race log.</td>
     </tr>
     <tr>
         <td><code>.searchTournament()</code></td>
-        <td>name, (limit)</td>
+        <td>name, {options}</td>
+        <td>limit</td>
         <td>Search all tournaments by name.</td>
     </tr>
     <tr>
         <td><code>.getTournament()</code></td>
         <td>tournamentTag</td>
+        <td></td>
         <td>Get information about a single tournament by a tournament tag.</td>
     </tr>
     <tr>
         <td><code>.getGlobalTournammentList()</code></td>
         <td></td>
+        <td></td>
         <td>Get list of global tournaments.</td>
     </tr>
     <tr>
         <td><code>.getLocationList()</code></td>
-        <td>(limit)</td>
+        <td>{options}</td>
+        <td>limit</td>
         <td>List locations.</td>
     </tr>
     <tr>
         <td><code>.getLocation()</code></td>
         <td>locationId</td>
+        <td></td>
         <td>Get information about specific location.</td>
     </tr>
     <tr>
         <td><code>.getLocationClanRankingList()</code></td>
-        <td>locationId, (limit)</td>
+        <td>locationId, {options}</td>
+        <td>limit</td>
         <td>Get clan rankings for a specific location.</td>
     </tr>
     <tr>
         <td><code>.getLocationPlayerRankingList()</code></td>
-        <td>locationId, (limit)</td>
+        <td>locationId, {options}</td>
+        <td>limit</td>
         <td>Get player rankings for a specific location.</td>
     </tr>
     <tr>
         <td><code>.getLocationClanWarRankingList()</code></td>
-        <td>locationId, (limit)</td>
+        <td>locationId, {options}</td>
+        <td>limit</td>
         <td>Get clan war rankings for a specific location.</td>
     </tr>
     <tr>
         <td><code>.getGlobalSeasonList()</code></td>
+        <td></td>
         <td></td>
         <td>Lists top player league seasons.</td>
     </tr>
     <tr>
         <td><code>.getGlobalSeason()</code></td>
         <td>seasonId</td>
+        <td></td>
         <td>Get top player league season.</td>
     </tr>
     <tr>
         <td><code>.getGlobalSeasonPlayerRanking()</code></td>
-        <td>seasonId, (limit)</td>
+        <td>seasonId, {options}</td>
+        <td>limit</td>
         <td>Get top player rankings for a season.</td>
     </tr>
     <tr>
         <td><code>.getGlobalTournamentRanking()</code></td>
-        <td>tournamentTag, (limit)</td>
+        <td>tournamentTag, {options}</td>
+        <td>limit</td>
         <td>Get global tournament rankings.</td>
     </tr>
 </table>
@@ -413,7 +435,7 @@ api.getPlayer('#XXXXXXXX').then(data => console.log(data));
 ```js
 const supercell = require('supercell-api');
 
-const api = new spercell.ClashOfClans('clash of clans api key here');
+const api = new supercell.ClashOfClans('clash of clans api key here');
 
 api.getPlayer('#XXXXXXXX').then(data => console.log(data));
 ```
@@ -533,122 +555,151 @@ api.getPlayer('#XXXXXXXX').then(data => console.log(data));
 <table>
     <tr>
         <th></th>
-        <th>Strings</th>
+        <th>Parameters</th>
+        <th>Options</th>
         <th>Description</th>
     </tr>
     <tr>
         <td><code>.getPlayer()</code></td>
         <td>playerTag</td>
+        <td></td>
         <td>Get information about a single player by player tag.</td>
     </tr>
     <tr>
         <td><code>.searchClan()</code></td>
-        <td>name, (limit), (minMembers), (maxMembers), (minClanPoints), (minClanLevel), (warFrequency), (locationId), (labelIds)</td>
+        <td>name, {options}</td>
+        <td>limit, minMembers, maxMembers, minClanPoints, warFrequency, locationId, labelIds</td>
         <td>Search all clans by name and/or filtering the results using various criteria.</td>
     </tr>
     <tr>
         <td><code>.getClan()</code></td>
         <td>clanTag</td>
+        <td></td>
         <td>Get information about a single clan by clan tag.</td>
     </tr>
     <tr>
         <td><code>.getClanMemberList()</code></td>
-        <td>clanTag, (limit)</td>
+        <td>clanTag, {options}</td>
+        <td>limit</td>
         <td>List clan members.</td>
     </tr>
     <tr>
         <td><code>.getCurrentClanWar()</code></td>
         <td>clanTag</td>
+        <td></td>
         <td>Retrieve information about clan's current clan war.</td>
     </tr>
     <tr>
         <td><code>.getClanWarLog()</code></td>
-        <td>clanTag, (limit)</td>
+        <td>clanTag, {options}</td>
+        <td>limit</td>
         <td>Retrieve clan's clan war log.</td>
     </tr>
     <tr>
         <td><code>.getClanWar()</code></td>
         <td>warTag</td>
+        <td></td>
         <td>Retrieve information about individual clan war league war.</td>
     </tr>
     <tr>
         <td><code>.getCurrentClanWarGroup()</code></td>
         <td>clanTag</td>
+        <td></td>
         <td>Retrieve information about clan's current clan war league group.</td>
     </tr>
     <tr>
         <td><code>.getLeagueList()</code></td>
-        <td>(limit)</td>
+        <td>{options}</td>
+        <td>limit</td>
         <td>List leagues.</td>
     </tr>
     <tr>
         <td><code>.getLeague()</code></td>
         <td>leagueId</td>
+        <td></td>
         <td>Get league information.</td>
     </tr>
     <tr>
         <td><code>.getLeagueSeasonList()</code></td>
-        <td>leagueId, (limit)</td>
+        <td>leagueId, {options}</td>
+        <td>limit</td>
         <td>Get league seasons.</td>
     </tr>
     <tr>
         <td><code>.getLeagueSeason()</code></td>
-        <td>leagueId, seasonId, (limit)</td>
+        <td>leagueId, seasonId, {options}</td>
+        <td>limit</td>
         <td>Get league season rankings.</td>
     </tr>
     <tr>
         <td><code>.getWarLeagueList()</code></td>
-        <td>(limit)</td>
+        <td>{options}</td>
+        <td>limit</td>
         <td>List war leagues.</td>
     </tr>
     <tr>
         <td><code>.getWarLeague()</code></td>
         <td>leagueId</td>
+        <td></td>
         <td>Get war league information.</td>
     </tr>
     <tr>
         <td><code>.getLocationList()</code></td>
-        <td>(limit)</td>
+        <td>{options}</td>
+        <td>limit</td>
         <td>List locations.</td>
     </tr>
     <tr>
         <td><code>.getLocation()</code></td>
         <td>locationId</td>
+        <td></td>
         <td>Get information about specific location.</td>
     </tr>
     <tr>
         <td><code>.getLocationClanRankingList()</code></td>
-        <td>locationId, (limit)</td>
+        <td>locationId, {options}</td>
+        <td>limit</td>
         <td>Get clan rankings for a specific location.</td>
     </tr>
     <tr>
         <td><code>.getLocationPlayerRankingList()</code></td>
-        <td>locationId, (limit)</td>
+        <td>locationId, {options}</td>
+        <td>limit</td>
         <td>Get player rankings for a specific location.</td>
     </tr>
     <tr>
         <td><code>.getLocationClanVersusRankingList()</code></td>
-        <td>locationId, (limit)</td>
+        <td>locationId, {options}</td>
+        <td>limit</td>
         <td>Get clan versus rankings for a specific location.</td>
     </tr>
     <tr>
         <td><code>.getLocationPlayerVersusRankingList()</code></td>
-        <td>locationId, (limit)</td>
+        <td>locationId, {options}</td>
+        <td>limit</td>
         <td>Get player versus rankings for a specific location.</td>
     </tr>
     <tr>
         <td><code>.getGoldPass()</code></td>
         <td></td>
+        <td></td>
         <td>Get information about the current gold pass season.</td>
     </tr>
     <tr>
         <td><code>.getPlayerLabelList()</code></td>
-        <td>(limit)</td>
+        <td>{options}</td>
+        <td>limit</td>
         <td>List player labels.</td>
     </tr>
     <tr>
         <td><code>.getClanLabelList()</code></td>
-        <td>(limit)</td>
+        <td>{options}</td>
+        <td>limit</td>
         <td>List clan labels.</td>
     </tr>
 </table>
+
+## Get help
+<a target="_blank" href="https://discordapp.com/invite/eP5eEsdxJn">
+  <img  src="https://discordapp.com/api/guilds/870337306572247082/widget.png?style=banner2">
+</a>
