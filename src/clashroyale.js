@@ -11,6 +11,10 @@ class ClashRoyale {
             if (!playerTag) throw new Error('You didn\'t provided a player tag!');
             return fetch(apiKey, `${api_url}${base_url}/players/${playerTag.replace('#', '%23')}`);
         };
+        
+        this.getChallenges = function () {
+            return fetch(apiKey, `${api_url}${base_url}/challenges`);
+        };
 
         this.getUpcomingChestList = function (playerTag) {
             if (!playerTag) throw new Error('You didn\'t provided a player tag!');
